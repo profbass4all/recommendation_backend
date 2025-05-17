@@ -84,7 +84,7 @@ app.get('/movies', (req, res) => {
     }
 })
 app.get('/', (req, res) => {
-    res.send('Movie Recommendation API is running. Use /recommend?title=YOUR_MOVIE_TITLE');
+    res.send('Movie Recommendation API is up and running....Cheers! Thanks 3MTT for this amazing opportunity to learn and grow.')
 });
 
 

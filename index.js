@@ -60,7 +60,7 @@ app.get('/recommend', (req, res) => {
 
 app.get('/movies', (req, res) => {
     try{
-        const movieList = movie.map(movie => ({
+        const movieList = movies.map(movie => ({
             Title: movie.Series_Title,
             Released_Year: movie.Released_Year,
             Certificate: movie.Certificate,

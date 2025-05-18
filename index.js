@@ -9,7 +9,14 @@ const port = 3000;
 const pythonScriptPath = path.join(__dirname, 'recommendation_script.py');
 // const dataUrl = "https://drive.google.com/file/d/1PEjFZiaD67GsWbVGzfr2uktDp3K6zLxq/view?usp=sharing";
 
-
+app.use((req, res, next) => {
+    
+    res.header('Access-Control-Allow-Origin', 'https://localhost:5173')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+    res.header('Access-Control-Expose-Headers', 'Authorization')
+    next(); 
+});
 app.use(express.json())
 
 app.get('/recommend', (req, res) => {

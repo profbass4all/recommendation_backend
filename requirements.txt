@@ -2,7 +2,3 @@ pandas
 scikit-learn
 numpy
 requests
-io
-sys
-json
-re

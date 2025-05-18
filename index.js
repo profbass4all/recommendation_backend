@@ -26,7 +26,7 @@ app.get('/recommend', (req, res) => {
         return res.status(400).json({ message: 'Missing movie title query parameter (e.g., ?title=Movie Title)', status: false });
     }
 
-    const command = `python "${pythonScriptPath}" "${movieTitle}"`;
+    const command = `python3 "${pythonScriptPath}" "${movieTitle}"`;
 
     console.log(`Executing Python script: ${command}`);
 
@@ -42,7 +42,7 @@ app.get('/recommend', (req, res) => {
         }
 
         if (stderr) {
-            console.warn(`Python stderr: ${stderr}`);
+            console.warn(`Python3 stderr: ${stderr}`);
         }
 
         try {

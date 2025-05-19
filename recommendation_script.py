@@ -42,7 +42,7 @@ def recommend_movies(
     required_columns = text_features + categorical_features
     missing_columns = [col for col in required_columns if col not in movie_collection.columns]
     
-    output_columns = ['Series_Title'] + text_features + categorical_features
+    output_columns = text_features + categorical_features
     output_columns = [col for col in output_columns if col in movie_collection.columns] 
 
     if missing_columns:

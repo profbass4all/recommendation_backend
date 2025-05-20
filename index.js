@@ -1,7 +1,7 @@
 const express = require('express')
 // const { exec } = require('child_process')
 // const path = require('path')
-// const movies = require('./movies.json') 
+const movies = require('./movies.json') 
 const axios = require('axios')
 
 const app = express();

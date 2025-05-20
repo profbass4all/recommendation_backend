@@ -1,13 +1,11 @@
 const express = require('express')
-const { exec } = require('child_process')
-const path = require('path')
-const movies = require('./movies.json') 
+// const { exec } = require('child_process')
+// const path = require('path')
+// const movies = require('./movies.json') 
+const axios = require('axios')
 
 const app = express();
 const port = 3000; 
-
-const pythonScriptPath = path.join(__dirname, 'recommendation_script.py');
-// const dataUrl = "https://drive.google.com/file/d/1PEjFZiaD67GsWbVGzfr2uktDp3K6zLxq/view?usp=sharing";
 
 app.use((req, res, next) => {
     
@@ -19,51 +17,44 @@ app.use((req, res, next) => {
 });
 app.use(express.json())
 
-app.get('/recommend', (req, res) => {
-    const movieTitle = req.query.title; // Get the movie title from query parameters
-
+app.get("/recommend", async (req, res) => {
+    const movieTitle = req.query.title;
+  
     if (!movieTitle) {
-        return res.status(400).json({ message: 'Missing movie title query parameter (e.g., ?title=Movie Title)', status: false });
+      return res
+        .status(400)
+        .json({
+            status: false, 
+            message: "Missing movie title query parameter" 
+        });
     }
-
-    const command = `python "${pythonScriptPath}" "${movieTitle}"`;
-
-    console.log(`Executing Python script: ${command}`);
-
-    exec(command, { maxBuffer: 1024 * 1024 * 10 }, (error, stdout, stderr) => { 
-        if (error) {
-            console.error(`exec error: ${error}`);
-            console.error(`Python stderr: ${stderr}`);
-            return res.status(500).json({
-                message: 'Failed to get recommendations from Python script.',
-                status: false,
-                details: stderr.trim() || error.message
-            });
-        }
-
-        if (stderr) {
-            console.warn(`Python stderr: ${stderr}`);
-        }
-
-        try {
-            const recommendations = JSON.parse(stdout);
-            res.status(200).json({
-                message: 'Recommendations fetched successfully',
-                status: true,
-                data: recommendations
-            });
-        } catch (parseError) {
-            console.error(`Failed to parse Python script output: ${parseError}`);
-            console.error(`Python stdout: ${stdout}`); 
-            res.status(500).json({
-                message: 'Failed to parse recommendations from Python script output.',
-                status: false,
-                details: parseError.message,
-                rawOutput: stdout.trim()
-            });
-        }
+  
+    try {
+      
+      const encodedMovieTitle = encodeURIComponent(movieTitle);
+      const pythonApiEndpoint = `https://recommend-flask.onrender.com/recommend?title=${encodedMovieTitle}`;
+  
+      console.log(`Calling Python API: ${pythonApiEndpoint}`);
+  
+      const response = await axios.get(pythonApiEndpoint);
+  
+      const recommendations = response.data;
+  
+      res.status(200).json({
+        message: 'Recommendations fetched successfully',
+        status: true,
+        data: recommendations
     });
+    } catch (error) {
+        res.status(500).json({
+            message: 'Failed to get recommendations from Python API',
+            status: false,
+            details: error.message,
+        });
+    
+    }
 });
+
 
 app.get('/movies', (req, res) => {
     try{

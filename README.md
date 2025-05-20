@@ -38,8 +38,11 @@ The server should start and listen on port 3000 (or the port specified in index.
 
 You should see a message like Movie Recommendation API listening at ```http://localhost:3000```
 
-[Flask GitHub URL]()
-[Frontend GitHub URL]()
+[Flask GitHub URL](https://github.com/profbass4all/recommend_flask)
+
+[Frontend GitHub URL](https://github.com/profbass4all/recommendation_frontend)
+
 [Live Link](https://3mtt-movie-recommendation.netlify.app/)
+
 [Postman Documentation](https://documenter.getpostman.com/view/36175815/2sB2qWJ4vC)
 
